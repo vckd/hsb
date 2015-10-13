@@ -4,10 +4,6 @@ application:
 #Database Configuration
 spring:
   datasource:
-    schema:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql:postgres
-    username: postgres
-    password: test
   jooq:
     sqlDialect: POSTGRES_9_4
