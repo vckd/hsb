@@ -141,18 +141,17 @@
                         <configuration>
                             <scripts>
                                 <script><![CDATA[
-        URI dbUri = new URI(System.getenv("DATABASE_URL"));
+        URI dbUri = new URI("postgres://postgres:test@localhost/");
 
         String username = dbUri.getUserInfo().split(":")[0];
         String password = dbUri.getUserInfo().split(":")[1];
         int port = dbUri.getPort();
 
-        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ":" + port + dbUri.getPath();
+        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
 
         project.properties['database.jdbcUrl']=dbUrl;
         project.properties['database.username']=username;
         project.properties['database.password']=password;
-
         ]]></script>
                             </scripts>
                         </configuration>
@@ -204,7 +203,7 @@
                             <jdbc>
                                 <driver>org.postgresql.Driver</driver>
                                 <url>${database.jdbcUrl}</url>
-                                <username>${database.username}</username>
+                                <user>${database.username}</user>
                                 <password>${database.password}</password>
                             </jdbc>
                             <!-- Generator parameters -->
