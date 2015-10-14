@@ -203,9 +203,9 @@
                             <!-- JDBC connection parameters -->
                             <jdbc>
                                 <driver>org.postgresql.Driver</driver>
-                                <url>jdbc:postgresql:postgres</url>
-                                <user>postgres</user>
-                                <password>test</password>
+                                <url>${database.jdbcUrl}</url>
+                                <username>${database.username}</username>
+                                <password>${database.password}</password>
                             </jdbc>
                             <!-- Generator parameters -->
                             <generator>
