@@ -177,8 +177,8 @@
                                 </database>
                                 <target>
                                     <packageName>sample.jooq.domain</packageName>
-                                    <directory>${basedir}/gensrc/main/java</directory>
-                                    <!--<directory>target/generated-sources/jooq</directory>-->
+                                    <!--<directory>${basedir}/gensrc/main/java</directory>-->
+                                    <directory>target/generated-sources/jooq</directory>
                                 </target>
                             </generator>
                         </configuration>
