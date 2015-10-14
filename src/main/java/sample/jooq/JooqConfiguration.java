@@ -28,7 +28,7 @@ public class JooqConfiguration {
 
     @Bean
     public DataSource dataSource() throws URISyntaxException {
-        URI dbUrl = new URI("postgres://postgres:test@localhost/");
+        URI dbUrl = new URI(System.getenv("DATABASE_URL"));
         String url = getDatabaseUrl(dbUrl);
         String username = getUsername(dbUrl);
         String password = getPassword(dbUrl);
