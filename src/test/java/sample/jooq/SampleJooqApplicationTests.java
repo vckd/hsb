@@ -167,18 +167,4 @@ public class SampleJooqApplicationTests {
 
     }
 
-    public static void main(String[] arg) throws URISyntaxException {
-        System.out.println(getDatabaseUrl(new URI("postgres://postgres:test@localhost/")));
-    }
-    private static String getDatabaseUrl(URI uri) {
-        StringBuilder sb = new StringBuilder("jdbc:postgresql://")
-                .append(uri.getHost())
-                .append(uri.getPath());
-        String query = uri.getQuery();
-        if (query != null) {
-            sb.append("?")
-                    .append(uri.getQuery());
-        }
-        return sb.toString();
-    }
 }
