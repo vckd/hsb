@@ -34,10 +34,10 @@
             <version>3.6.2</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-dbcp2</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.commons</groupId>-->
+            <!--<artifactId>commons-dbcp2</artifactId>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -113,9 +113,9 @@
     <profiles>
         <profile>
             <id>generate</id>
-            <!--<activation>-->
-                <!--<activeByDefault>true</activeByDefault>-->
-            <!--</activation>-->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
@@ -177,8 +177,8 @@
                                 </database>
                                 <target>
                                     <packageName>sample.jooq.domain</packageName>
-                                    <!--<directory>${basedir}/gensrc/main/java</directory>-->
-                                    <directory>target/generated-sources/jooq</directory>
+                                    <directory>${basedir}/gensrc/main/java</directory>
+                                    <!--<directory>target/generated-sources/jooq</directory>-->
                                 </target>
                             </generator>
                         </configuration>

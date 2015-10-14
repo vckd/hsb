@@ -4,6 +4,7 @@ application:
 #Database Configuration
 spring:
   datasource:
+    schema:
     driverClassName: org.postgresql.Driver
   jooq:
     sqlDialect: POSTGRES_9_4

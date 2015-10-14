@@ -16,8 +16,10 @@
 
 package sample.jooq;
 
+import org.hamcrest.Matcher;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
+import org.jooq.TransactionalRunnable;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -78,14 +80,23 @@ public class SampleJooqApplicationTests {
 //                is(equalTo(SQLDialect.POSTGRES)));
 //    }
 //
-//    @Test
-//    public void jooqWithoutTx() throws Exception {
-//        registerAndRefresh(JooqDataSourceConfiguration.class,
-//                JooqAutoConfiguration.class, PropertyPlaceholderAutoConfiguration.class);
-//        DSLContext dsl = this.context.getBean(DSLContext.class);
-//        dsl.execute("select * from jooqtest;");
-//
-//    }
+    @Test
+    public void jooqWithoutTx() throws Exception {
+        registerAndRefresh(JooqConfiguration.class);
+        DSLContext dsl = this.context.getBean(DSLContext.class);
+
+        dsl.execute("create table jooqtest (name varchar(255) primary key);");
+        dsl.transaction(new AssertFetch(dsl, "select count(*) as total from jooqtest;",
+                equalTo("0")));
+        dsl.transaction(new ExecuteSql(dsl, "insert into jooqtest (name) values ('foo');"));
+        dsl.transaction(new AssertFetch(dsl, "select count(*) as total from jooqtest;",
+                equalTo("1")));
+        dsl.transaction(new ExecuteSql(dsl, "delete from jooqtest;"));
+        dsl.transaction(new AssertFetch(dsl, "select count(*) as total from jooqtest;",
+                equalTo("0")));
+        dsl.execute("drop table jooqtest;");
+
+    }
 //
 //
 //    private String[] getBeanNames(Class<?> type) {
@@ -94,7 +105,7 @@ public class SampleJooqApplicationTests {
 //
     @Test
 	public void outputResults() throws Exception {
-		SampleJooqApplication.main(NO_ARGS);
+//		SampleJooqApplication.main(NO_ARGS);
 
 
 //		assertThat(this.out.toString(), containsString("jOOQ Fetch 1 Greg Turnquest"));
@@ -110,6 +121,47 @@ public class SampleJooqApplicationTests {
     private void registerAndRefresh(Class<?>... annotatedClasses) {
         this.context.register(annotatedClasses);
         this.context.refresh();
+    }
+
+    private static class AssertFetch implements TransactionalRunnable {
+
+        private final DSLContext dsl;
+
+        private final String sql;
+
+        private final Matcher<? super String> matcher;
+
+        public AssertFetch(DSLContext dsl, String sql, Matcher<? super String> matcher) {
+            this.dsl = dsl;
+            this.sql = sql;
+            this.matcher = matcher;
+        }
+
+        @Override
+        public void run(org.jooq.Configuration configuration) throws Exception {
+            assertThat(this.dsl.fetch(this.sql).getValue(0, 0).toString(), this.matcher);
+        }
+
+    }
+
+    private static class ExecuteSql implements TransactionalRunnable {
+
+        private final DSLContext dsl;
+
+        private final String[] sql;
+
+        public ExecuteSql(DSLContext dsl, String... sql) {
+            this.dsl = dsl;
+            this.sql = sql;
+        }
+
+        @Override
+        public void run(org.jooq.Configuration configuration) throws Exception {
+            for (String statement : this.sql) {
+                this.dsl.execute(statement);
+            }
+        }
+
     }
 
 }

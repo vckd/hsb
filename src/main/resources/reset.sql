@@ -1,1 +1,2 @@
-DROP TABLE playground;
+drop schema public cascade;
+create schema public;
