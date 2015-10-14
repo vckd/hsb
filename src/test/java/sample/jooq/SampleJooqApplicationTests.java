@@ -80,7 +80,7 @@ public class SampleJooqApplicationTests {
 //                is(equalTo(SQLDialect.POSTGRES)));
 //    }
 //
-    @Test
+    //@Test
     public void jooqWithoutTx() throws Exception {
         registerAndRefresh(JooqConfiguration.class);
         DSLContext dsl = this.context.getBean(DSLContext.class);
@@ -103,7 +103,7 @@ public class SampleJooqApplicationTests {
 //        return this.context.getBeanNamesForType(type);
 //    }
 //
-    @Test
+   // @Test
 	public void outputResults() throws Exception {
 //		SampleJooqApplication.main(NO_ARGS);
 
